@@ -1,0 +1,716 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/HS_logo_small.png">
+  <link rel="icon" href="/img/HS_logo_small.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="书山有路勤为径，学海无涯苦作舟">
+  <meta name="author" content="HSLWQ">
+  <meta name="keywords" content="">
+  
+  <title>win10搭建python的Linux开发环境 - HSBlog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"hslwq.gitee.io","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"734a4928d45f01d06412a0f66efd0c6a","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"7BxhKvaqDGC4hjFxQ2PgPSyQ-gzGzoHsz","app_key":"Ur8xChR85F9EtwrHavtyKwrX","server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>HSLWQ</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/bg/bg2.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="win10搭建python的Linux开发环境">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      HSLWQ
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-04-29 09:48" pubdate>
+        2021年4月29日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      21
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">win10搭建python的Linux开发环境</h1>
+            
+            <div class="markdown-body">
+              <h1 id="win10搭建python的Linux开发环境-pycharm-vagrant-virtualbox"><a href="#win10搭建python的Linux开发环境-pycharm-vagrant-virtualbox" class="headerlink" title="win10搭建python的Linux开发环境(pycharm+vagrant+virtualbox)"></a>win10搭建python的Linux开发环境(pycharm+vagrant+virtualbox)</h1><blockquote>
+<p>本文参考 <a target="_blank" rel="noopener" href="https://anjia0532.github.io/2019/07/24/jumpserver-vagrant-virtualbox/">安家Blog</a></p>
+</blockquote>
+<div class="note note-warning">
+            <p>由于原教程的安装在新版中会存在一点问题，所以重新整理了一份</p>
+          </div>
+
+<p>本文主要介绍windows环境下搭建Python的Linux开发环境，使用Pycharm、Vagrant、VirtualBox搭建环境<br>以Jumpserver为例</p>
+<h2 id="软件环境准备"><a href="#软件环境准备" class="headerlink" title="软件环境准备"></a>软件环境准备</h2><p>共需要准备三个文件</p>
+<ul>
+<li>Vagrant安装包</li>
+<li>VirtualBox安装包</li>
+<li>package.box系统镜像</li>
+</ul>
+<h3 id="win7建议安装以下版本："><a href="#win7建议安装以下版本：" class="headerlink" title="win7建议安装以下版本："></a>win7建议安装以下版本：</h3><ol>
+<li>vagrant_1.8.6.msi</li>
+<li>VirtualBox-5.1.24-117012-Win.exe</li>
+</ol>
+<h3 id="win10建议安装以下版本："><a href="#win10建议安装以下版本：" class="headerlink" title="win10建议安装以下版本："></a>win10建议安装以下版本：</h3><p>经过尝试，其实vagrant版本可以任意，最新版2.2.15也能正常运行</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://releases.hashicorp.com/vagrant/1.8.7/">vagrant_1.8.7.msi</a> / <a target="_blank" rel="noopener" href="https://releases.hashicorp.com/vagrant/1.9.7/">vagrant_1.9.7_x86_x64.msi</a></li>
+<li><a target="_blank" rel="noopener" href="http://download.virtualbox.org/virtualbox/5.1.24/">VirtualBox-5.1.24-117012-Win.exe</a></li>
+</ol>
+<h3 id="下载package-box系统镜像"><a href="#下载package-box系统镜像" class="headerlink" title="下载package.box系统镜像"></a>下载package.box系统镜像</h3><p>在vagrant官网下载package.box文件，也就是系统的镜像文件<br>下载地址：<a target="_blank" rel="noopener" href="http://www.vagrantbox.es/">www.vagrantbox.es</a></p>
+<h2 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h2><h3 id="Vagrant和VirtualBox安装"><a href="#Vagrant和VirtualBox安装" class="headerlink" title="Vagrant和VirtualBox安装"></a>Vagrant和VirtualBox安装</h3><p>Vagrant和VirtualBox都是安装程序，直接下一步下一步就好了</p>
+<h3 id="把虚拟机加载到box容器中"><a href="#把虚拟机加载到box容器中" class="headerlink" title="把虚拟机加载到box容器中"></a>把虚拟机加载到box容器中</h3><p>以CentOS7为例<br>打开package.box文件的存放目录，在该目录下执行命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">vagrant box add centos/7 xxx.box<br></code></pre></div></td></tr></table></figure>
+
+<h2 id="下载Jumpserver并初始化虚拟机"><a href="#下载Jumpserver并初始化虚拟机" class="headerlink" title="下载Jumpserver并初始化虚拟机"></a>下载Jumpserver并初始化虚拟机</h2><h3 id="下载jumpserver"><a href="#下载jumpserver" class="headerlink" title="下载jumpserver"></a>下载jumpserver</h3><p>从GitHub克隆Jumpserver</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">git clone https://github.com/jumpserver/jumpserver.git<br>cd jumpserver<br></code></pre></div></td></tr></table></figure>
+<p>在jumpserver下创建Vagrantfile，文件内容如下</p>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim"># -*- <span class="hljs-keyword">mode</span>: <span class="hljs-keyword">ruby</span> -*-<br># <span class="hljs-keyword">vi</span>: <span class="hljs-keyword">set</span> ft=<span class="hljs-keyword">ruby</span> :<br><br>Vagrant.configure(<span class="hljs-string">&quot;2&quot;</span>) <span class="hljs-keyword">do</span> |config|<br>  # Every Vagrant development environment requires <span class="hljs-keyword">a</span> box. You can <span class="hljs-built_in">search</span> <span class="hljs-keyword">for</span><br>  # boxes at http<span class="hljs-variable">s:</span>//vagrantcloud.<span class="hljs-keyword">com</span>/<span class="hljs-built_in">search</span>.<br>  config.<span class="hljs-keyword">vm</span>.box_check_update = false<br>  config.<span class="hljs-keyword">vm</span>.box = <span class="hljs-string">&quot;centos/7&quot;</span><br>  config.<span class="hljs-keyword">vm</span>.<span class="hljs-built_in">hostname</span> = <span class="hljs-string">&quot;jumpserver&quot;</span><br>  config.<span class="hljs-keyword">vm</span>.network <span class="hljs-string">&quot;private_network&quot;</span>, ip: <span class="hljs-string">&quot;172.17.8.101&quot;</span><br>  config.<span class="hljs-keyword">vm</span>.provider <span class="hljs-string">&quot;virtualbox&quot;</span> <span class="hljs-keyword">do</span> |vb|<br>    vb.memory = <span class="hljs-string">&quot;4096&quot;</span><br>    vb.cpus = <span class="hljs-number">2</span><br>    vb.name = <span class="hljs-string">&quot;jumpserver&quot;</span><br>  end<br><br>  config.<span class="hljs-keyword">vm</span>.synced_folder <span class="hljs-string">&quot;.&quot;</span>, <span class="hljs-string">&quot;/vagrant&quot;</span>, <span class="hljs-built_in">type</span>: <span class="hljs-string">&quot;rsync&quot;</span>,<br>    rsync__verbose: true,<br>    rsync__exclude: [<span class="hljs-string">&#x27;.git*&#x27;</span>, <span class="hljs-string">&#x27;node_modules*&#x27;</span>,<span class="hljs-string">&#x27;*.log&#x27;</span>,<span class="hljs-string">&#x27;*.box&#x27;</span>,<span class="hljs-string">&#x27;Vagrantfile&#x27;</span>]<br><br>  config.<span class="hljs-keyword">vm</span>.provision <span class="hljs-string">&quot;shell&quot;</span>, inline: &lt;&lt;-SHELL<br>sudo sed -<span class="hljs-keyword">e</span> <span class="hljs-string">&quot;/mirrorlist/d&quot;</span> -<span class="hljs-keyword">e</span> <span class="hljs-string">&quot;s/#baseurl/baseurl/g&quot;</span> -<span class="hljs-keyword">e</span> <span class="hljs-string">&quot;s/mirror\.centos\.org/mirrors\.tuna\.tsinghua\.edu\.cn/g&quot;</span> -i /etc/yum.repos.d/CentOS-Base.repo<br>sudo yum makecache<br>sudo yum install -<span class="hljs-keyword">y</span> epel-release<br><br>sudo yum install -<span class="hljs-keyword">y</span> python36 python36-devel python36-pip \<br>		 libtiff-devel libjpeg-devel libzip-devel freetype-devel \<br>     lcms2-devel libwebp-devel <span class="hljs-keyword">tcl</span>-devel tk-devel sshpass \<br>     openldap-devel mariadb-devel mysql-devel libffi-devel \<br>     openssh-clients telnet openldap-clients gcc<br><br><span class="hljs-built_in">mkdir</span> /home/vagrant/.pip<br><span class="hljs-keyword">cat</span> &lt;&lt; EOF | sudo tee -<span class="hljs-keyword">a</span> /home/vagrant/.pip/pip.<span class="hljs-keyword">conf</span><br>[<span class="hljs-keyword">global</span>]<br>timeout = <span class="hljs-number">6000</span><br><span class="hljs-built_in">index</span>-url = http<span class="hljs-variable">s:</span>//mirrors.aliyun.<span class="hljs-keyword">com</span>/pypi/simple/<br><br>[install]<br>use-mirrors = true<br>mirrors = http<span class="hljs-variable">s:</span>//mirrors.aliyun.<span class="hljs-keyword">com</span>/pypi/simple/<br>trusted-host=mirrors.aliyun.<span class="hljs-keyword">com</span><br>EOF<br><br><span class="hljs-keyword">python3</span>.<span class="hljs-number">6</span> -<span class="hljs-keyword">m</span> venv /home/vagrant/venv<br><span class="hljs-keyword">source</span> /home/vagrant/venv/bin/activate<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;source /home/vagrant/venv/bin/activate&quot;</span> &gt;&gt; /home/vagrant/.bash_profile<br>  SHELL<br>end<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="开启虚拟机（初始化虚拟机环境）"><a href="#开启虚拟机（初始化虚拟机环境）" class="headerlink" title="开启虚拟机（初始化虚拟机环境）"></a>开启虚拟机（初始化虚拟机环境）</h3><div class="note note-warning">
+            <p>每次执行vagrant的相关命令时，必须在对应的目录下，也就是jumpserver目录下执行</p>
+          </div>
+
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">cd jumpserver<br>vagrant up<br>vagrant ssh<br></code></pre></div></td></tr></table></figure>
+<p>如果使用上述的Vagrantfile，则已经配置了pip的清华源和阿里源，并已经安装了python3.6</p>
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">vagrant ssh #进入虚拟机<br>pip3 install -r /vagrant/requirements/requirements.txt<br></code></pre></div></td></tr></table></figure>
+<div class="note note-warning">
+            <p>如果此处报权限错误，执行以下语句提升安装目录的权限等级</p><figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">sudo chmod 777 -R /home/vagrant/venv<br></code></pre></div></td></tr></table></figure>
+          </div>
+
+<h2 id="安装Jumpserver依赖（MySQL、Redis）"><a href="#安装Jumpserver依赖（MySQL、Redis）" class="headerlink" title="安装Jumpserver依赖（MySQL、Redis）"></a>安装Jumpserver依赖（MySQL、Redis）</h2><blockquote>
+<p>参照官方文档安装：<a target="_blank" rel="noopener" href="https://docs.jumpserver.org/zh/master/install/setup_by_lb/">Jumpserver负载均衡</a></p>
+</blockquote>
+<blockquote>
+<p>需要在虚拟机内进行安装</p>
+</blockquote>
+<div class="note note-warning">
+            <p>如果在安装过程中出现权限不足的情况，使用sudo权限安装即可</p>
+          </div>
+<div class="note note-danger">
+            <p>配置Mysql那一步，单纯使用sudo也无法安装，因为三行命令分开解析，需要先提升全局权限为root，即执行<code>su</code>命令，然后再正常执行，执行完成后，<code>exit</code>退出root权限，<strong>否则后续安装的权限都是最高权限，部分命令会导致低权限无法访问</strong></p>
+          </div>
+
+<h3 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h3><div class="note note-success">
+            <p>设置Repo</p><figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">yum -y localinstall http:<span class="hljs-regexp">//mi</span>rrors.ustc.edu.cn<span class="hljs-regexp">/mysql-repo/my</span>sql57-community-release-el7.rpm<br></code></pre></div></td></tr></table></figure>
+          </div>
+<div class="note note-success">
+            <p>安装Mysql</p><figure class="highlight axapta"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs axapta">yum install -y mysql-community-<span class="hljs-keyword">server</span><br></code></pre></div></td></tr></table></figure>
+          </div>
+<div class="note note-success">
+            <p>配置Mysql</p><figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk"><span class="hljs-keyword">if</span> [ ! <span class="hljs-string">&quot;$(cat /usr/bin/mysqld_pre_systemd | grep -v ^\# | grep initialize-insecure )&quot;</span> ]; then<br>    sed -i <span class="hljs-string">&quot;s@--initialize @--initialize-insecure @g&quot;</span> <span class="hljs-regexp">/usr/</span>bin/mysqld_pre_systemd<br>fi<br></code></pre></div></td></tr></table></figure>
+          </div>
+<div class="note note-success">
+            <p>启动Mysql</p><figure class="highlight pgsql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs pgsql">systemctl <span class="hljs-keyword">enable</span> mysqld<br>systemctl <span class="hljs-keyword">start</span> mysqld<br></code></pre></div></td></tr></table></figure>
+          </div>
+<div class="note note-success">
+            <p>数据库授权</p><figure class="highlight ebnf"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">mysql -uroot</span><br></code></pre></div></td></tr></table></figure><figure class="highlight pgsql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs pgsql">Welcome <span class="hljs-keyword">to</span> the MySQL monitor.  Commands <span class="hljs-keyword">end</span> <span class="hljs-keyword">with</span> ; <span class="hljs-keyword">or</span> \g.<br>Your MySQL <span class="hljs-keyword">connection</span> id <span class="hljs-keyword">is</span> <span class="hljs-number">2</span><br><span class="hljs-keyword">Server</span> <span class="hljs-keyword">version</span>: <span class="hljs-number">5.7</span><span class="hljs-number">.32</span> MySQL Community <span class="hljs-keyword">Server</span> (GPL)<br><br>Copyright (c) <span class="hljs-number">2000</span>, <span class="hljs-number">2020</span>, Oracle <span class="hljs-keyword">and</span>/<span class="hljs-keyword">or</span> its affiliates. <span class="hljs-keyword">All</span> rights reserved.<br><br>Oracle <span class="hljs-keyword">is</span> a registered trademark <span class="hljs-keyword">of</span> Oracle Corporation <span class="hljs-keyword">and</span>/<span class="hljs-keyword">or</span> its<br>affiliates. Other names may be trademarks <span class="hljs-keyword">of</span> their respective<br>owners.<br><br><span class="hljs-keyword">Type</span> <span class="hljs-string">&#x27;help;&#x27;</span> <span class="hljs-keyword">or</span> <span class="hljs-string">&#x27;\h&#x27;</span> <span class="hljs-keyword">for</span> help. <span class="hljs-keyword">Type</span> <span class="hljs-string">&#x27;\c&#x27;</span> <span class="hljs-keyword">to</span> clear the <span class="hljs-keyword">current</span> <span class="hljs-keyword">input</span> <span class="hljs-keyword">statement</span>.<br><br>mysql&gt; <span class="hljs-keyword">create</span> <span class="hljs-keyword">database</span> jumpserver <span class="hljs-keyword">default</span> charset <span class="hljs-string">&#x27;utf8&#x27;</span>;<br>Query OK, <span class="hljs-number">1</span> <span class="hljs-keyword">row</span> affected (<span class="hljs-number">0.00</span> sec)<br><br>mysql&gt; <span class="hljs-keyword">set</span> <span class="hljs-keyword">global</span> validate_password_policy=LOW;<br>Query OK, <span class="hljs-number">0</span> <span class="hljs-keyword">rows</span> affected (<span class="hljs-number">0.00</span> sec)<br><br>mysql&gt; <span class="hljs-keyword">create</span> <span class="hljs-keyword">user</span> <span class="hljs-string">&#x27;jumpserver&#x27;</span>@<span class="hljs-string">&#x27;%&#x27;</span> identified <span class="hljs-keyword">by</span> <span class="hljs-string">&#x27;weakPassword&#x27;</span>;<br>Query OK, <span class="hljs-number">0</span> <span class="hljs-keyword">rows</span> affected (<span class="hljs-number">0.00</span> sec)<br><br>mysql&gt; <span class="hljs-keyword">grant</span> <span class="hljs-keyword">all</span> <span class="hljs-keyword">on</span> jumpserver.* <span class="hljs-keyword">to</span> <span class="hljs-string">&#x27;jumpserver&#x27;</span>@<span class="hljs-string">&#x27;%&#x27;</span>;<br>Query OK, <span class="hljs-number">0</span> <span class="hljs-keyword">rows</span> affected, <span class="hljs-number">1</span> <span class="hljs-built_in">warning</span> (<span class="hljs-number">0.00</span> sec)<br><br>mysql&gt; flush <span class="hljs-keyword">privileges</span>;<br>Query OK, <span class="hljs-number">0</span> <span class="hljs-keyword">rows</span> affected (<span class="hljs-number">0.00</span> sec)<br><br>mysql&gt; <span class="hljs-keyword">exit</span><br>Bye<br></code></pre></div></td></tr></table></figure>
+          </div>
+<div class="note note-success">
+            <p>配置防火墙(直接关闭)</p><figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">systemctl <span class="hljs-builtin-name">disable</span> firewalld<br></code></pre></div></td></tr></table></figure>
+          </div>
+
+<h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><div class="note note-danger">
+            <p>Jumpserver官方在v2.9.2之后的版本修改了 Reids 的安装方式，改为了源码编译安装，这样会导致redis不能开机自启，且这样的步骤较为繁琐，建议采用下面的方案</p>
+          </div>
+<div class="note note-info">
+            <p>设置Repo</p><figure class="highlight arduino"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs arduino">yum -y install epel-release https:<span class="hljs-comment">//repo.ius.io/ius-release-el7.rpm</span><br></code></pre></div></td></tr></table></figure>
+          </div>
+<div class="note note-info">
+            <p>安装Redis</p><figure class="highlight apache"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">yum</span> install -y redis<span class="hljs-number">5</span><br></code></pre></div></td></tr></table></figure>
+          </div>
+<div class="note note-info">
+            <p>配置Redis</p><figure class="highlight awk"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs awk">sed -i <span class="hljs-string">&quot;s/bind 127.0.0.1/bind 0.0.0.0/g&quot;</span> <span class="hljs-regexp">/etc/</span>redis.conf<br>sed -i <span class="hljs-string">&quot;561i maxmemory-policy allkeys-lru&quot;</span> <span class="hljs-regexp">/etc/</span>redis.conf<br>sed -i <span class="hljs-string">&quot;481i requirepass weakPassword&quot;</span> <span class="hljs-regexp">/etc/</span>redis.conf<br></code></pre></div></td></tr></table></figure>
+          </div>
+<div class="note note-info">
+            <p>启动Redis</p><figure class="highlight pgsql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs pgsql">systemctl <span class="hljs-keyword">enable</span> redis<br>systemctl <span class="hljs-keyword">start</span> redis<br></code></pre></div></td></tr></table></figure>
+          </div>
+
+<h2 id="配置-Pycharm"><a href="#配置-Pycharm" class="headerlink" title="配置 Pycharm"></a>配置 Pycharm</h2><h3 id="配置-Python-Interpreter"><a href="#配置-Python-Interpreter" class="headerlink" title="配置 Python Interpreter"></a>配置 Python Interpreter</h3><p><img src="https://z3.ax1x.com/2021/04/30/gANn6P.png" srcset="/img/loading.gif" lazyload><br><img src="https://z3.ax1x.com/2021/04/30/gANMm8.png" srcset="/img/loading.gif" lazyload><br><img src="https://z3.ax1x.com/2021/04/30/gANGfs.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="配置-Run-Debug-Configurations"><a href="#配置-Run-Debug-Configurations" class="headerlink" title="配置 Run/Debug Configurations"></a>配置 Run/Debug Configurations</h3><p><img src="https://z3.ax1x.com/2021/04/30/gAN07F.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="配置-Django"><a href="#配置-Django" class="headerlink" title="配置 Django"></a>配置 Django</h3><p><img src="https://z3.ax1x.com/2021/04/30/gANDk4.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h3><figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">cd jumpserver<br>cp config_example.yml config.yml<br></code></pre></div></td></tr></table></figure>
+<blockquote>
+<p>也可以直接将 <code>config_example.yml</code> 文件重命名为 <code>config.yml</code> 文件</p>
+</blockquote>
+<p>然后修改 Mysql 和 Redis 的相关配置<br><img src="https://z3.ax1x.com/2021/04/30/gAN79A.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="初始化数据库"><a href="#初始化数据库" class="headerlink" title="初始化数据库"></a>初始化数据库</h2><p>进入对应的目录下</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">cd jumpserver<br>vagrant ssh<br>cd /vagrant/apps<br></code></pre></div></td></tr></table></figure>
+
+<p>执行以下命令初始化数据库</p>
+<figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">python3 manage.py migrate<br></code></pre></div></td></tr></table></figure>
+<p>等待执行完毕，执行完毕后，进入 jumpserver 数据库查看表是否有正常安装</p>
+<h2 id="启动项目"><a href="#启动项目" class="headerlink" title="启动项目"></a>启动项目</h2><p>启动前需要先修改以下三项的值</p>
+<figure class="highlight yaml"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">SECRET_KEY:</span> <span class="hljs-comment"># 加密key，随机输入一个字符串</span><br><span class="hljs-attr">BOOTSTRAP_TOKEN:</span> <span class="hljs-comment"># 跟上面的一样就行</span><br><span class="hljs-attr">DEBUG:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># 改为true即可</span><br></code></pre></div></td></tr></table></figure>
+
+<p>然后启动<br><img src="https://z3.ax1x.com/2021/04/30/gANXB8.png" srcset="/img/loading.gif" lazyload></p>
+<p>浏览器打开<code>http://172.17.8.101:8080</code>查看是否正常启动</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/linux/">linux</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/linux/">linux</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/">虚拟环境</a>
+                    
+                      <a class="hover-with-bg" href="/tags/vagrant/">vagrant</a>
+                    
+                      <a class="hover-with-bg" href="/tags/virtualbox/">virtualbox</a>
+                    
+                      <a class="hover-with-bg" href="/tags/jumpserver/">jumpserver</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/04/22/git/Git%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/">
+                        <span class="hidden-mobile">Git基础使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.lazyComments('valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#valine",
+          app_id: "CHpYb4KuYcEbbAMIGCbLIOar-MdYXbMMI",
+          app_key: "1k6TXmGGu6wy4wf55jifs1Du",
+          placeholder: "说点什么（支持Markdown语法）",
+          path: window.location.pathname,
+          avatar: "mp",
+          meta: ["nick","mail","link"],
+          requiredFields: ["nick","mail"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+          emojiCDN: "//i0.hdslb.com/bfs/emote/",
+          emojiMaps: {
+            "tv_doge": "6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png",
+            "tv_亲亲": "a8111ad55953ef5e3be3327ef94eb4a39d535d06.png",
+            "tv_偷笑": "bb690d4107620f1c15cff29509db529a73aee261.png",
+            "tv_再见": "180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png",
+            "tv_冷漠": "b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png",
+            "tv_发怒": "34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png",
+            "tv_发财": "34db290afd2963723c6eb3c4560667db7253a21a.png",
+            "tv_可爱": "9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png",
+            "tv_吐血": "09dd16a7aa59b77baa1155d47484409624470c77.png",
+            "tv_呆": "fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png",
+            "tv_呕吐": "9f996894a39e282ccf5e66856af49483f81870f3.png",
+            "tv_困": "241ee304e44c0af029adceb294399391e4737ef2.png",
+            "tv_坏笑": "1f0b87f731a671079842116e0991c91c2c88645a.png",
+            "tv_大佬": "093c1e2c490161aca397afc45573c877cdead616.png",
+            "tv_大哭": "23269aeb35f99daee28dda129676f6e9ea87934f.png",
+            "tv_委屈": "d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png",
+            "tv_害羞": "a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png",
+            "tv_尴尬": "7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png",
+            "tv_微笑": "70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png",
+            "tv_思考": "90cf159733e558137ed20aa04d09964436f618a1.png",
+            "tv_惊吓": "0d15c7e2ee58e935adc6a7193ee042388adc22af.png",
+            "tv_打脸": "56ab10b624063e966bfcb76ea5dc4794d87dfd47.png",
+            "tv_抓狂": "fe31c08edad661d63762b04e17b8d5ae3c71a757.png",
+            "tv_抠鼻": "c666f55e88d471e51bbd9fab9bb308110824a6eb.png",
+            "tv_斜眼笑": "911f987aa8bc1bee12d52aafe62bc41ef4474e6c.png",
+            "tv_无奈": "ea8ed89ee9878f2fece2dda0ea8a5dbfe21b5751.png",
+            "tv_晕": "5443c22b4d07fb1907ccc610c8e6db254f2461b7.png",
+            "tv_流汗": "cead1c351ab8d79e9f369605beb90148db0fbed3.png",
+            "tv_流泪": "7e71cde7858f0cd50d74b0264aa26db612a8a167.png",
+            "tv_流鼻血": "c32d39db2737f89b904ca32700d140a9241b0767.png",
+            "tv_点赞": "f85c354995bd99e28fc76c869bfe42ba6438eff4.png",
+            "tv_生气": "26702dcafdab5e8225b43ffd23c94ac1ff932654.png",
+            "tv_生病": "8b0ec90e6b86771092a498c54f09fc94621c1900.png",
+            "tv_疑问": "0793d949b18d7be716078349c202c15ff166f314.png",
+            "tv_白眼": "c1d59f439e379ee50eef488bcb5e5378e5044ea4.png",
+            "tv_皱眉": "72ccad6679fea0d14cce648b4d818e09b8ffea2d.png",
+            "tv_目瞪口呆": "0b8cb81a68de5d5365212c99375e7ace3e7891b7.png",
+            "tv_睡着": "8b196675b53af58264f383c50ad0945048290b33.png",
+            "tv_笑哭": "1abc628f6d4f4caf9d0e7800878f4697abbc8273.png",
+            "tv_腼腆": "89712c0d4af73e67f89e35cbc518420380a7f6f4.png",
+            "tv_色": "61822c7e9aae5da76475e7892534545336b23a6f.png",
+            "tv_调侃": "4bc022533ef31544ca0d72c12c808cf4a1cce3e3.png",
+            "tv_调皮": "b9c41de8e82dd7a8515ae5e3cb63e898bf245186.png",
+            "tv_鄙视": "6e72339f346a692a495b123174b49e4e8e781303.png",
+            "tv_闭嘴": "c9e990da7f6e93975e25fd8b70e2e290aa4086ef.png",
+            "tv_难过": "87f46748d3f142ebc6586ff58860d0e2fc8263ba.png",
+            "tv_馋": "fc7e829b845c43c623c8b490ee3602b7f0e76a31.png",
+            "tv_鬼脸": "0ffbbddf8a94d124ca2f54b360bbc04feb6bbfea.png",
+            "tv_黑人问号": "45821a01f51bc867da9edbaa2e070410819a95b2.png",
+            "tv_鼓掌": "1d21793f96ef4e6f48b23e53e3b9e42da833a0f6.png",
+          },
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="http://hslwq.gitee.io" target="_blank" rel="nofollow noopener"><span>国内路线</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/hslwq" target="_blank" rel="nofollow noopener"><span>GitHub</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <!-- Baidu Analytics -->
+    <script defer>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?734a4928d45f01d06412a0f66efd0c6a";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
