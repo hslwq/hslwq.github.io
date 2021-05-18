@@ -18,7 +18,7 @@
   <meta name="author" content="HSLWQ">
   <meta name="keywords" content="">
   
-  <title>归档 - HSBlog</title>
+  <title>HSBlog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -48,7 +48,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 100vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -142,18 +142,22 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/bg/bg3.jpg') no-repeat center center;
+         style="background: url('/img/bg/bg1.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="归档">
+            <span class="h2" id="subtitle" title="一个爱打游戏的程序员 - HongSheng">
               
             </span>
 
             
           </div>
 
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
           
         </div>
       </div>
@@ -164,90 +168,62 @@
     
       <div class="container nopadding-x-md">
         <div class="py-5" id="board"
-          >
+          style=margin-top:0>
           
           <div class="container">
             <div class="row">
               <div class="col-12 col-md-10 m-auto">
                 
 
-<div class="list-group">
-  <p class="h4">共计 11 篇文章</p>
-  <hr>
-  
-  
+
+  <div class="row mx-auto index-card">
     
-      
-      <p class="h5">2021</p>
     
-    <a href="/linux/vim/vim%E6%95%99%E7%A8%8B/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">vim教程</span>
-      <time style="float: right;">05-12</time>
-    </a>
-  
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/hello-world/" target="_self">
+          <img src="https://z3.ax1x.com/2021/04/26/gpkEge.png" srcset="/img/loading.gif" lazyload alt="Hello World">
+        </a>
+      </div>
     
-    <a href="/python/django/Django%E5%9F%BA%E7%A1%80/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Django中CSRF</span>
-      <time style="float: right;">05-11</time>
-    </a>
-  
-    
-    <a href="/python/django/Django%E5%AE%89%E8%A3%85/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Django 安装</span>
-      <time style="float: right;">05-11</time>
-    </a>
-  
-    
-    <a href="/linux/win10%E6%90%AD%E5%BB%BApython%E7%9A%84Linux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83(pycharm+vagrant+virtualbox)/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">win10搭建python的Linux开发环境</span>
-      <time style="float: right;">04-29</time>
-    </a>
-  
-    
-    <a href="/git/Git%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Git基础使用</span>
-      <time style="float: right;">04-22</time>
-    </a>
-  
-    
-    <a href="/git/Git%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Git基础配置</span>
-      <time style="float: right;">04-22</time>
-    </a>
-  
-    
-    <a href="/blog/Hexo%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Hexo搭建教程</span>
-      <time style="float: right;">04-21</time>
-    </a>
-  
-    
-    <a href="/%E5%89%8D%E7%AB%AF/vue/01-Vue%E4%BB%8B%E7%BB%8D%E5%8F%8A%E8%AF%B4%E6%98%8E/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">01_Vue介绍及说明</span>
-      <time style="float: right;">04-21</time>
-    </a>
-  
-    
-    <a href="/%E5%89%8D%E7%AB%AF/vue/05-Vue%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">05_Vue指令系统</span>
-      <time style="float: right;">04-21</time>
-    </a>
-  
-    
-    <a href="/%E5%89%8D%E7%AB%AF/js/ES6%E8%AF%AD%E6%B3%95/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">ES6语法</span>
-      <time style="float: right;">04-20</time>
-    </a>
-  
-</div>
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/hello-world/">Hello World</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/hello-world/">
+          
+          
+            
+          
+          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-09 13:21" pubdate>
+              2021-04-09
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/#board">2</a><a class="extend next" rel="next" href="/archives/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
     </span>
   </nav>
-
 
 
 

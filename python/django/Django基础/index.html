@@ -18,7 +18,7 @@
   <meta name="author" content="HSLWQ">
   <meta name="keywords" content="">
   
-  <title>Outer Wilds 对话整理 - HSBlog</title>
+  <title>Django中CSRF - HSBlog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Outer Wilds 对话整理">
+            <span class="h2" id="subtitle" title="Django中CSRF">
               
             </span>
 
@@ -178,8 +178,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-04-29 09:48" pubdate>
-        2021年4月29日 上午
+      <time datetime="2021-05-11 16:13" pubdate>
+        2021年5月11日 下午
       </time>
     </span>
   
@@ -190,7 +190,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6 字
+      489 字
     </span>
   
 
@@ -200,7 +200,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      7
        分钟
     </span>
   
@@ -238,10 +238,39 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Outer Wilds 对话整理</h1>
+            <h1 style="display: none">Django中CSRF</h1>
             
             <div class="markdown-body">
-              <h1 id="Outer-Wilds-对话整理"><a href="#Outer-Wilds-对话整理" class="headerlink" title="Outer Wilds 对话整理"></a>Outer Wilds 对话整理</h1>
+              <h1 id="Django-中-FBC-和-CBV"><a href="#Django-中-FBC-和-CBV" class="headerlink" title="Django 中 FBC 和 CBV"></a>Django 中 FBC 和 CBV</h1><h1 id="Django-中-CSRF-拦截器（跨站请求伪造）"><a href="#Django-中-CSRF-拦截器（跨站请求伪造）" class="headerlink" title="Django 中 CSRF 拦截器（跨站请求伪造）"></a>Django 中 CSRF 拦截器（跨站请求伪造）</h1><blockquote>
+<p>Django学习：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ZE411j7RK?p=7">B站视频</a></p>
+</blockquote>
+<h2 id="Django-中-CSRF-的基本使用"><a href="#Django-中-CSRF-的基本使用" class="headerlink" title="Django 中 CSRF 的基本使用"></a>Django 中 CSRF 的基本使用</h2><p>在 Django 中，生成项目时已经自动在配置文件 <code>settings.py</code> 加入了CSRF</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">MIDDLEWARE = [<br>    <span class="hljs-string">&#x27;django.middleware.security.SecurityMiddleware&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.contrib.sessions.middleware.SessionMiddleware&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.middleware.common.CommonMiddleware&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.middleware.csrf.CsrfViewMiddleware&#x27;</span>, <span class="hljs-comment"># 该项</span><br>    <span class="hljs-string">&#x27;django.contrib.auth.middleware.AuthenticationMiddleware&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.contrib.messages.middleware.MessageMiddleware&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.middleware.clickjacking.XFrameOptionsMiddleware&#x27;</span>,<br>]<br></code></pre></div></td></tr></table></figure>
+
+<p>上面这种相当于全局启用 CSRF，这种情况下，如果想对某个<strong>方法</strong>或者<strong>类</strong>单独关闭 CSRF，则只需在对应的方法或者类上加上一个<strong>装饰器</strong> <code>@csrf_exempt</code>，如下所示</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.views.decorators.csrf <span class="hljs-keyword">import</span> csrf_exempt<br><span class="hljs-meta">@csrf_exempt </span><span class="hljs-comment"># 该方法无需认证</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">users</span>(<span class="hljs-params">request</span>):</span><br>    <span class="hljs-keyword">pass</span><br></code></pre></div></td></tr></table></figure>
+
+
+
+<p>第二种情况：全局默认关闭 CSRF</p>
+<p>在 <code>settings.py</code> 文件中将 <code>django.contrib.auth.middleware.AuthenticationMiddleware</code> 删掉，则相当于全局关闭 CSRF</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">MIDDLEWARE = [<br>    <span class="hljs-string">&#x27;django.middleware.security.SecurityMiddleware&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.contrib.sessions.middleware.SessionMiddleware&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.middleware.common.CommonMiddleware&#x27;</span>,<br>    <span class="hljs-comment"># &#x27;django.middleware.csrf.CsrfViewMiddleware&#x27;, # 该项</span><br>    <span class="hljs-string">&#x27;django.contrib.auth.middleware.AuthenticationMiddleware&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.contrib.messages.middleware.MessageMiddleware&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.middleware.clickjacking.XFrameOptionsMiddleware&#x27;</span>,<br>]<br></code></pre></div></td></tr></table></figure>
+
+<p>如果想对某个方法或类单独启用，同样也是只需要加上一个装饰器 <code>@csrf_protect</code></p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.views.decorators.csrf <span class="hljs-keyword">import</span> csrf_protect<br><span class="hljs-meta">@csrf_protect </span><span class="hljs-comment"># 该方法需单独认证CSRF</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">users</span>(<span class="hljs-params">request</span>):</span><br>    <span class="hljs-keyword">pass</span><br></code></pre></div></td></tr></table></figure>
+
+<h1 id="Restful-规范"><a href="#Restful-规范" class="headerlink" title="Restful 规范"></a>Restful 规范</h1><p>根据请求的 method 不同，做不同的操作</p>
+<p>原来的定义方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">urlpatterns=[<br>  url(<span class="hljs-string">r&#x27;^add_user&#x27;</span>, views.add_user),<br>  url(<span class="hljs-string">r&#x27;^update_user&#x27;</span>, views.update_user),<br>  url(<span class="hljs-string">r&#x27;^query_users&#x27;</span>, views.query_users),<br>  url(<span class="hljs-string">r&#x27;^delete_users&#x27;</span>, views.delete_users),<br>]<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-comment"># 对应的view</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_user</span>(<span class="hljs-params">request</span>):</span><br>  <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&#x27;添加用户&#x27;</span>)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">update_user</span>(<span class="hljs-params">request</span>):</span><br>  <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&#x27;修改用户&#x27;</span>)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">query_users</span>(<span class="hljs-params">request</span>):</span><br>  <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&#x27;查询用户&#x27;</span>)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">delete_users</span>(<span class="hljs-params">request</span>):</span><br>  <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&#x27;删除用户&#x27;</span>)<br></code></pre></div></td></tr></table></figure>
+
+<p>使用 restful 规范的定义方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">urlpatterns=[<br>  url(<span class="hljs-string">r&#x27;^users&#x27;</span>, views.users),<br>]<br></code></pre></div></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">users</span>(<span class="hljs-params">request</span>):</span><br>  <span class="hljs-keyword">if</span> request.method == <span class="hljs-string">&#x27;GET&#x27;</span>:<br>    	<span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&#x27;查询用户&#x27;</span>)<br>  <span class="hljs-keyword">if</span> request.method == <span class="hljs-string">&#x27;POST&#x27;</span>:<br>    	<span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&#x27;添加用户&#x27;</span>)<br>  <span class="hljs-keyword">if</span> request.method == <span class="hljs-string">&#x27;PUT&#x27;</span>:<br>    	<span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&#x27;更新用户&#x27;</span>)  <br>  <span class="hljs-keyword">if</span> request.method == <span class="hljs-string">&#x27;DELETE&#x27;</span>:<br>    	<span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&#x27;删除用户&#x27;</span>)<br></code></pre></div></td></tr></table></figure>
+
+
             </div>
             <hr>
             <div>
@@ -250,7 +279,9 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/outer-wilds/">outer wilds</a>
+                      <a class="hover-with-bg" href="/categories/python/">python</a>
+                    
+                      <a class="hover-with-bg" href="/categories/python/django/">django</a>
                     
                   </div>
                 
@@ -258,7 +289,11 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Outer-Wilds/">Outer Wilds</a>
+                      <a class="hover-with-bg" href="/tags/python/">python</a>
+                    
+                      <a class="hover-with-bg" href="/tags/django/">django</a>
+                    
+                      <a class="hover-with-bg" href="/tags/CSRF/">CSRF</a>
                     
                   </div>
                 
@@ -270,6 +305,29 @@
                   
                 </p>
               
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/linux/vim/vim%E6%95%99%E7%A8%8B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">vim教程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/python/django/Django%E5%AE%89%E8%A3%85/">
+                        <span class="hidden-mobile">Django 安装</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
               
             </div>
 
