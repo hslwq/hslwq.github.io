@@ -190,7 +190,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      451 字
+      475 字
     </span>
   
 
@@ -263,9 +263,13 @@
 <li><code>npx hexo &lt;command&gt;</code></li>
 <li>（不推荐，建议直接使用<a href="#%E5%85%A8%E5%B1%80%E5%AE%89%E8%A3%85"><strong>全局安装</strong></a>）将 Hexo 所在目录下的<code>node_modules</code>添加到环境变量之中即可直接使用<code>hexo &lt;command&gt;</code>   <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">echo &#x27;PATH=&quot;$PATH:./node_modules/.bin&quot;&#x27; &gt;&gt; ~/.profile<br></code></pre></div></td></tr></table></figure></li>
 </ol>
-<h2 id="使用-Hexo"><a href="#使用-Hexo" class="headerlink" title="使用 Hexo"></a>使用 Hexo</h2><p>安装 Hexo 完成后，初始化环境（仅需执行一次），打开所在文件夹，执行以下命令</p>
+<h2 id="使用-Hexo"><a href="#使用-Hexo" class="headerlink" title="使用 Hexo"></a>使用 Hexo</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>安装 Hexo 完成后，初始化环境（仅需执行一次），打开所在文件夹，执行以下命令</p>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">npm install<br></code></pre></div></td></tr></table></figure>
 <p>然后即可使用 Hexo</p>
+<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">hexo generate # 简写为 hexo g<br></code></pre></div></td></tr></table></figure>
+
+<h3 id="启动服务器"><a href="#启动服务器" class="headerlink" title="启动服务器"></a>启动服务器</h3><figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">hexo server #简写为 hexo s<br></code></pre></div></td></tr></table></figure>
+
 <h2 id="将-Hexo-部署到-GitHub"><a href="#将-Hexo-部署到-GitHub" class="headerlink" title="将 Hexo 部署到 GitHub"></a>将 Hexo 部署到 GitHub</h2><h3 id="安装一键部署工具-hexo-deployer-git"><a href="#安装一键部署工具-hexo-deployer-git" class="headerlink" title="安装一键部署工具 hexo-deployer-git"></a>安装一键部署工具 hexo-deployer-git</h3><p>执行以下命令安装</p>
 <figure class="highlight shell"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs shell">npm install hexo-deployer-git --save<br></code></pre></div></td></tr></table></figure>
 
